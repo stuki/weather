@@ -1,0 +1,57 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+h1 {
+  color: white;
+}
+
+.card {
+  padding: 10px;
+  height: 400px;
+  margin: 10px;
+}
+
+.Helsinki {
+  background: url('/images/helsinki.jpg') no-repeat;
+}
+
+.Amsterdam {
+  background: url('/images/amsterdam.jpg') no-repeat;
+}
+
+.Tokyo {
+  background: url('/images/tokyo.jpg') no-repeat;
+}
+
+.NewYork {
+  background: url('/images/newyork.jpg') no-repeat;
+}
+
+.Dubai {
+  background: url('/images/dubai.jpg') no-repeat;
+}
+
+.temperature {
+  position: absolute;
+  bottom: 0px;
+  right: 20px;
+}
+
+.card-block {
+  height: 100%;
+}
+
+.row {
+  height: 100%;
+}
+
+#chart {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}

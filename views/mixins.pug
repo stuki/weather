@@ -1,0 +1,12 @@
+mixin locationCard(title, coordinates)
+    a(href='/location/'+title) 
+        .card(class=title)
+            .card-block
+                .row
+                    .col-sm-8
+                        h1.font-weight-bold.text-white.card-title= title
+                        h5.card-subtitle.mb-2.text-white= coordinates
+                    .col-sm-4.text-right
+                        .temperature
+                            h1.font-weight-bold.text-white 24°C
+                            h5.text-white Hi: 30°C Low: 20°C
