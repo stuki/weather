@@ -1,4 +1,7 @@
-fetch('/api/v1/weather?location=' + location)
+const currentPage = location.href.split("/").slice(-1);
+console.log(currentPage);
+
+fetch('/api/v1/weather?location=' + currentPage)
     .then((resp) => resp.json())
     .then(function(data) {
         var dataTime = ['time']

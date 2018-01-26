@@ -12,6 +12,8 @@ CREATE TABLE temperatures(
     time TIMESTAMPTZ);
 ```
 
+copy data to database with `\copy temperatures(location,temperature,time) FROM '/path/to/csv/ZIP_CODES.txt' DELIMITER ',' CSV HEADER`
+
 ## Built With
 
 * [Express](https://expressjs.com/)
