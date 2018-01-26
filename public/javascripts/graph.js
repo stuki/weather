@@ -7,6 +7,8 @@ fetch('/api/v1/weather?location=' + currentPage[0])
         var dataTime = ['time']
         var dataTemp = ['temperature']
         
+        console.log(data);
+
         data.map(function(obj){
             dataTime.push(Date.parse(obj.time))
             dataTemp.push(obj.temp)
