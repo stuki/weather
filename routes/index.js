@@ -59,17 +59,17 @@ function findTemperatures(location) {
   
   let databaseQuery = new Promise((resolve, reject) => {
     db.query(currentTemperatureQuery).then(res => {
-    console.log(res.rows);
-    temperatures.location.current = res.rows[0];
+      // console.log(res.rows);
+      temperatures.location.current = res.rows[0];
     }).catch(err => console.error('error executing query', err.stack));
 
     db.query(minTemperatureQuery).then(res => {
-      console.log(res.rows);
+      // console.log(res.rows);
       temperatures.location.low = res.rows[0];
     }).catch(err => console.error('error executing query', err.stack));
 
     db.query(maxTemperatureQuery).then(res => {
-      console.log(res.rows);
+      // console.log(res.rows);
       temperatures.location.max = res.rows[0];
     }).catch(err => console.error('error executing query', err.stack));
   });
