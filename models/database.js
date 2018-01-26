@@ -1,7 +1,6 @@
-var pg = require('pg');
+const Pool = require('pg');
 
-var connectionString = process.env.DATABASE_URL
-var createTableText = `
+const createTableText = `
 CREATE TABLE temperatures(
     id SERIAL PRIMARY KEY,
     location VARCHAR(40) not null, 
@@ -9,16 +8,10 @@ CREATE TABLE temperatures(
     time TIMESTAMPTZ);
 `
 
-var client = new pg.Client(connectionString);
-client.connect(function(err) {
-  if(err) {
-    return console.error('could not connect to postgres', err);
-  }
-  client.query(createTableText, function(err, result) {
-    if(err) {
-      return console.error('error running query', err);
-    }
-    console.log(result.rows);
-    client.end();
-  });
-});
+const pool = new Pool()
+
+pool.query(createTableText)
+  .then(res => console.log(res.rows[0]))
+  .catch(e => console.error(e.stack));
+
+await pool.end();

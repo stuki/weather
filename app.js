@@ -1,16 +1,16 @@
-var express = require('express');
-var session = require('express-session');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var flash = require('connect-flash');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 
-var index = require('./routes/index');
-var location = require('./routes/location');
+const index = require('./routes/index');
+const location = require('./routes/location');
 
-var app = express();
+const app = express();
 
 app.use(cookieParser('secret'));
 app.use(session({cookie: { maxAge: 60000 }}));
