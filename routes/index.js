@@ -22,7 +22,7 @@ router.post('/api/v1/weather', (req, res) => {
 });
 
 router.get('/api/v1/weather', (req, res) => {
-  const text = "SELECT * FROM temperatures WHERE location = '" + req.query.location + "'"
+  const text = "SELECT * FROM temperatures WHERE location = '" + req.query.location.toLowerCase() + "'"
   var results = {};
   db.query(text)
     .then(result => {

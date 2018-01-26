@@ -2,6 +2,16 @@
 
 A small exercise for my summer job application for Reaktor. The task was to create an app that displays the current user submitted temperature for pre-determined locations (just so happens to be the same locations that Reaktor has offices, who'd have thunk!), and the minimum and maximum temperatures for the day. Clicking on a location brings you to a graph (not part of the task), and the submission form. Deployed on Heroku, using Express and PostgreSQL.
 
+## Setup
+
+```
+CREATE TABLE temperatures(
+    id SERIAL PRIMARY KEY,
+    location VARCHAR(40) not null, 
+    temp INT not null, 
+    time TIMESTAMPTZ);
+```
+
 ## Built With
 
 * [Express](https://expressjs.com/)
