@@ -53,7 +53,7 @@ function findTemperatures(location) {
                                   WHERE location = '" + location +"' \
                                   ORDER BY date DESC LIMIT 1'";
 
-  let temperatures {location: {'current': null, 'hi': null, 'low': null}}
+  let temperatures = {location: {'current': null, 'hi': null, 'low': null}}
   
   let databaseQuery = new Promise((resolve, reject) => {
     db.query(currentTemperatureQuery).then(res => {
