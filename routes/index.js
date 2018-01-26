@@ -21,7 +21,6 @@ router.post('/api/v1/weather', (req, res) => {
 });
 
 router.get('/api/v1/weather', (req, res) => {
-  if
   const text = "SELECT * \
                 FROM temperatures \
                 WHERE location = '" + req.query.location.toLowerCase() + "'"; 
