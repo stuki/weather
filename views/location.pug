@@ -1,5 +1,8 @@
 extends layout
 include mixins
+        
+block viewSpecificScripts
+    script(src="/javascripts/graph.js")
 
 block content
     h1= "Temperature in " + title

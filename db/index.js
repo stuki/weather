@@ -2,6 +2,7 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
 	host: process.env.DATABASE_URL
+	database: 'temperatures'
 });
 
 module.exports = {
