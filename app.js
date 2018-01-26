@@ -12,9 +12,9 @@ const location = require('./routes/location');
 
 const app = express();
 
+const port = process.env.PORT || 8080;
+
 app.use(cookieParser('secret'));
-app.use(session({cookie: { maxAge: 60000 }}));
-app.use(flash());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +34,10 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+});
+
+app.listen(port, () => {
+	console.log('Express server listening on port', port)
 });
 
 // error handler
