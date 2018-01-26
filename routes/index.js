@@ -70,7 +70,7 @@ function findTemperatures(location) {
       console.log(res.rows);
       temperatures.location.max = res.rows[0];
     }).catch(err => console.error('error executing query', err.stack));
-  }
+  });
 
   databaseQuery.then(resolve => { return temperatures; });
 }
