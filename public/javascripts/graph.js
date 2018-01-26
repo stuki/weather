@@ -1,11 +1,10 @@
 const currentPage = location.href.split("/").slice(-1);
-console.log(currentPage);
 
 fetch('/api/v1/weather?location=' + currentPage[0])
     .then((resp) => resp.json())
     .then(function(data) {
-        var dataTime = ['time']
-        var dataTemp = ['temperature']
+        let dataTime = ['time']
+        let dataTemp = ['temperature']
         
         // console.log(data);
 

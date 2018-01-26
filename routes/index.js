@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/api/v1/weather', (req, res) => {
   const data = {location: req.body.location.toLowerCase(), temp: req.body.temp, time: new Date()};  
-  const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)'
+  const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
   const values = [data.location, data.temp, data.time]
 
   db.query(text, values)
@@ -21,8 +21,8 @@ router.post('/api/v1/weather', (req, res) => {
 });
 
 router.get('/api/v1/weather', (req, res) => {
-  const text = "SELECT * FROM temperatures WHERE location = '" + req.query.location.toLowerCase() + "'"
-  var results = {};
+  const text = "SELECT * FROM temperatures WHERE location = '" + req.query.location.toLowerCase() + "'";
+  let results = {};
   db.query(text)
     .then(result => {
       results = result.rows; 
