@@ -16,7 +16,6 @@ router.post('/api/v1/weather', (req, res) => {
 
   db.query(text, values)
     .then(res => {
-      req.flash('success');
       res.redirect('back');
     }).catch(err => console.error('error executing query', err.stack));
 });
