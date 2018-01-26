@@ -9,6 +9,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Weather', data: findTemperatures('helsinki') });
 });
 
+console.log(findTemperatures('helsinki'))
+
 router.post('/api/v1/weather', (req, res) => {
   const data = {location: req.body.location.toLowerCase(), temp: req.body.temp, time: new Date()};  
   const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
@@ -40,18 +42,18 @@ module.exports = router;
 function findTemperatures(location) {
   const maxTemperatureQuery = "SELECT max(temperature) \
                                FROM temperatures \
-                               WHERE location = '" + location +"' \
+                               WHERE location = '" + location + "' \
                                AND time > NOW() - interval '1 day'";
 
   const minTemperatureQuery = "SELECT min(temperature) \
                                FROM temperatures \
-                               WHERE location = '" + location +"' \
+                               WHERE location = '" + location + "' \
                                AND time > NOW() - interval '1 day'";
 
   const currentTemperatureQuery = "SELECT temperature \
-                                  FROM temperatures \
-                                  WHERE location = '" + location +"' \
-                                  ORDER BY date DESC LIMIT 1'";
+                                   FROM temperatures \
+                                   WHERE location = '" + location + "' \
+                                   ORDER BY date DESC LIMIT 1";
 
   let temperatures = {location: {'current': null, 'hi': null, 'low': null}}
   
