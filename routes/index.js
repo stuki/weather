@@ -53,7 +53,7 @@ function findTemperatures(location) {
   const currentTemperatureQuery = "SELECT temperature \
                                    FROM temperatures \
                                    WHERE location = '" + location + "' \
-                                   ORDER BY date DESC LIMIT 1";
+                                   ORDER BY time DESC LIMIT 1";
 
   let temperatures = {location: {'current': null, 'hi': null, 'low': null}}
   
