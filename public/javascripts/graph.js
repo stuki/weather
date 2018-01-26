@@ -11,7 +11,7 @@ fetch('/api/v1/weather?location=' + currentPage[0])
 
         data.map(function(obj){
             dataTime.push(Date.parse(obj.time))
-            dataTemp.push(obj.temp)
+            dataTemp.push(obj.temperature)
         })
 
         c3.generate({
