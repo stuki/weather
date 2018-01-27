@@ -6,7 +6,7 @@ const sanitize = require('express-validator/filter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Weather', data:JSON.stringify(findTemperatures('helsinki')) });
+  res.render('index', { title: 'Weather', data: JSON.stringify(findTemperatures('helsinki')) });
 });
 
 console.log(findTemperatures('helsinki'))
@@ -74,5 +74,5 @@ function findTemperatures(location) {
     }).catch(err => console.error('error executing query', err.stack));
   });
 
-  databaseQuery.then(resolve => { return temperatures; });
+  databaseQuery.then(resolve => { console.log(JSON.stringify(temperatures)); return temperatures; });
 }
