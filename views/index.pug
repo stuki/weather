@@ -2,13 +2,12 @@ extends layout
 include mixins
 
 block content
-    - console.log(data)
     h1= title
-    //- +locationCard("Helsinki", "60.1697530°, 24.9490830°", data.temperature, data.highTemperature, data.lowTemperature)
-    //- +locationCard("Tokyo", "35.6584421°, 139.7328635°")
-    //- +locationCard("New York", "40.7406905°, -73.9938438°")
-    //- +locationCard("Amsterdam", "52.3650691°, 4.9040238°")
-    //- +locationCard("Dubai", "25.092535°, 55.1562243°")
+    +locationCard("Helsinki", "60.1697530°, 24.9490830°", data.temperature, data.highTemperature, data.lowTemperature)
+    +locationCard("Tokyo", "35.6584421°, 139.7328635°")
+    +locationCard("New York", "40.7406905°, -73.9938438°")
+    +locationCard("Amsterdam", "52.3650691°, 4.9040238°")
+    +locationCard("Dubai", "25.092535°, 55.1562243°")
 
     // TODO
     //

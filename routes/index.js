@@ -6,7 +6,7 @@ const sanitize = require('express-validator/filter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Weather', data: findTemperatures('helsinki') });
+  res.render('index', { title: 'Weather', data:JSON.stringify(findTemperatures('helsinki')) });
 });
 
 console.log(findTemperatures('helsinki'))
