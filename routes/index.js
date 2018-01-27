@@ -9,8 +9,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Weather', data: JSON.stringify(findTemperatures('helsinki')) });
 });
 
-console.log(findTemperatures('helsinki'))
-
 router.post('/api/v1/weather', (req, res) => {
   const data = {location: req.body.location.toLowerCase(), temp: req.body.temp, time: new Date()};  
   const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
