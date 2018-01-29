@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET users listing. */
 router.get('/:location', function(req, res, next) {
   res.render('location',  {title: req.params.location});
 });

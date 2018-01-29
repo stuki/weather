@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 const db = require('../db');
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
     const temperatureRangeQuery = "SELECT location AS location, MAX(temperature) AS max, MIN(temperature) AS min \
-                                 FROM temperatures \
-                                 WHERE time > NOW() - interval '1 day' \
-                                 GROUP BY location";
+                                   FROM temperatures \
+                                   WHERE time > NOW() - interval '1 day' \
+                                   GROUP BY location";
 
     const temperatureCurrentQuery = "SELECT DISTINCT ON (location) * \
                                      FROM temperatures \
@@ -54,18 +53,26 @@ router.post('/api/v1/weather', (req, res) => {
     }).catch(err => console.error('error executing query', err.stack));
 });
 
-router.get('/api/v1/weather', (req, res) => {
-  const text = "SELECT * \
+router.get('/api/v1/weather', async (req, res, next) => {
+  try {
+    const text = "SELECT * \
                 FROM temperatures \
-                WHERE location = '" + req.query.location.toLowerCase() + "'"; 
-  let results = {};
-  db.query(text)
-    .then(result => {
-      results = result.rows;
-      res.status(200).json(results);
-    })
-    .catch(err => console.error('error executing query', err.stack));
+                WHERE location = $1"; 
 
+    const locations = ["helsinki", "tokyo", "dubai", "new york", "amsterdam"];
+
+    let values = [];
+
+    if (locations.indexOf(req.query.location.toLowerCase()) > -1 ) {
+      values.push(req.query.location.toLowerCase());
+    };
+
+    const results = await db.query(text, values);
+    res.status(200).json(results.rows);
+  
+  } catch(err) {
+    next(err);
+  };
 });
 
 module.exports = router;
