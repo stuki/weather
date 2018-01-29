@@ -3,7 +3,7 @@ const connectionString = process.env.DATABASE_URL
 
 
 const pool = new Pool({
-	connectionString: connectionString
+  connectionString: connectionString
 });
 
 module.exports = {

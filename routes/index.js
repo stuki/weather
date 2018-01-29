@@ -36,20 +36,24 @@ router.get('/', async (req, res, next) => {
 
     res.render('index', { title: 'Weather', data: data });
   } catch(err) {
-    next(err)
+    next(err);
   };
   
 });
 
+
+// API Handler
 router.post('/api/v1/weather', (req, res) => {
   const data = {location: req.body.location.toLowerCase(), temp: req.body.temp, time: new Date()};  
   const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
-  const values = [data.location, data.temp, data.time]
+  const values = [data.location, data.temp, data.time];
 
   db.query(text, values)
     .then(result => {
       res.redirect('back');
-    }).catch(err => console.error('error executing query', err.stack));
+    }).catch(err => 
+      console.error('error executing query', err.stack);
+    );
 });
 
 router.get('/api/v1/weather', (req, res) => {
@@ -62,7 +66,9 @@ router.get('/api/v1/weather', (req, res) => {
       results = result.rows;
       res.status(200).json(results);
     })
-    .catch(err => console.error('error executing query', err.stack));
+    .catch(err =>  
+      console.error('error executing query', err.stack);
+    );
 
 });
 

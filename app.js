@@ -37,7 +37,7 @@ app.use(function(req, res, next) {
 });
 
 app.listen(port, () => {
-	console.log('Express server listening on port', port)
+	console.log('Express server listening on port', port);
 });
 
 // error handler

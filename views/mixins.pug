@@ -1,12 +1,12 @@
 mixin locationCard(title, imgLocation, coordinates, temperature, highTemperature, lowTemperature)
-    a(href='/location/'+ title) 
-        .card(style="background: url('/images/"+imgLocation+".jpg')")
-            .card-block
-                .row
-                    .col-sm-8
-                        h1.font-weight-bold.text-white.card-title= title
-                        h5.card-subtitle.mb-2.text-white= coordinates
-                    .col-sm-4.text-right
-                        .temperature
-                            h1.font-weight-bold.text-white #{temperature}°C
-                            h5.text-white Hi: #{highTemperature}°C Low: #{lowTemperature}°C
+  a(href='/location/'+ title) 
+    .card(style="background: url('/images/"+imgLocation+".jpg')")
+      .card-block
+        .row
+          .col-sm-8
+            h1.font-weight-bold.text-white.card-title= title
+            h5.card-subtitle.mb-2.text-white= coordinates
+          .col-sm-4.text-right
+            .temperature
+              h1.font-weight-bold.text-white #{temperature}°C
+              h5.text-white Hi: #{highTemperature}°C Low: #{lowTemperature}°C
