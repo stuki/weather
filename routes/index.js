@@ -2,36 +2,40 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-/* GET home page. */
+
+/// GET index, query the database for temperature data
 router.get('/', async (req, res, next) => {
   try {
-    const temperatureRangeQuery = "SELECT location AS location, MAX(temperature) AS max, MIN(temperature) AS min \
-                                   FROM temperatures \
-                                   WHERE time > NOW() - interval '1 day' \
-                                   GROUP BY location";
 
-    const temperatureCurrentQuery = "SELECT DISTINCT ON (location) * \
-                                     FROM temperatures \
-                                     ORDER BY location, time DESC";
+    const dataQuery = "SELECT \
+                         location AS location, \
+                         (SELECT temperature \
+                           FROM temperatures t2 \
+                           WHERE t2.location = t1.location \
+                           ORDER BY time \
+                           DESC LIMIT 1) AS current, \
+                         MAX(temperature) AS max, \
+                         MIN(temperature) AS min \
+                       FROM temperatures t1 \
+                       WHERE time > NOW() - interval '1 day' \
+                       GROUP BY location";
 
-    const temperatureRange = await db.query(temperatureRangeQuery);
-    const temperatureCurrent = await db.query(temperatureCurrentQuery);
+    const rawData = await db.query(dataQuery);
 
     let data = {
-      'helsinki': {},
-      'amsterdam': {},
-      'dubai': {},
-      'tokyo': {},
-      'new york': {}
-    };
+                'amsterdam': {}, 
+                'dubai': {},
+                'helsinki': {},
+                'new york': {}, 
+                'tokyo': {}
+               };
 
-    for (var i in temperatureCurrent.rows) {
-      data[temperatureCurrent.rows[i].location].current = temperatureCurrent.rows[i].temperature;
-    };
-    for (var i in temperatureRange.rows) {
-      data[temperatureRange.rows[i].location].max = temperatureRange.rows[i].max;
-      data[temperatureRange.rows[i].location].min = temperatureRange.rows[i].min;
-    };
+    for (i in rawData.rows) {
+      data[rawData.rows[i].location] = {
+        current: rawData.rows[i].current, 
+        max: rawData.rows[i].max, 
+        min: rawData.rows[i].min}
+    }
 
     res.render('index', { title: 'Weather', data: data });
   } catch(err) {
@@ -41,31 +45,38 @@ router.get('/', async (req, res, next) => {
 });
 
 
+
+// GET /location/:location
+router.get('/location/:location', function(req, res, next) {
+  res.render('location',  {title: req.params.location});
+});
+
+
+
 // API Handler
 router.post('/api/v1/weather', (req, res) => {
-  const data = {location: req.body.location.toLowerCase(), temp: req.body.temp, time: new Date()};  
-  const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
-  const values = [data.location, data.temp, data.time];
+  if (req.body.temp > -90 && req.body.temp < 60) {
+    const data = {location: req.body.location.toLowerCase(), temp: req.body.temp, time: new Date()};  
+    const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
+    const values = [data.location, data.temp, data.time];
 
-  db.query(text, values)
-    .then(result => {
-      res.redirect('back');
-    }).catch(err => console.error('error executing query', err.stack));
+    db.query(text, values)
+      .then(result => {
+        res.redirect('back');
+      }).catch(err => console.error('error executing query', err.stack));
+  } else {
+    res.json('Error: Temperature out of range (-90C - 60C)')
+  };
 });
 
 router.get('/api/v1/weather', async (req, res, next) => {
   try {
     const text = "SELECT * \
-                FROM temperatures \
-                WHERE location = $1"; 
-
-    const locations = ["helsinki", "tokyo", "dubai", "new york", "amsterdam"];
+                  FROM temperatures \
+                  WHERE location = $1";
 
     let values = [];
-
-    if (locations.indexOf(req.query.location.toLowerCase()) > -1 ) {
-      values.push(req.query.location.toLowerCase());
-    };
+    values.push(req.query.location.toLowerCase());
 
     const results = await db.query(text, values);
     res.status(200).json(results.rows);

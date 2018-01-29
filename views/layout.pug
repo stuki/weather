@@ -10,14 +10,4 @@ html
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
     block viewSpecificScripts
   body
-    if error && error.length > 0
-      .alert.alert-danger.alert-dismissible.fade-in(role="alert")
-        button.close(type="button" data-dismiss="alert" aria-label="Close")
-          span(aria-hidden="true") ×
-        p= error
-    if success && success.length > 0
-      .alert.alert-success.alert-dismissible.fade-in(role="alert")
-        button.close(type="button" data-dismiss="alert" aria-label="Close")
-          span(aria-hidden="true") ×
-        p= success
     block content

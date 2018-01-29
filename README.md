@@ -22,8 +22,8 @@ copy data to database with `\copy temperatures(location,temperature,time) FROM '
 * PostgreSQL
 * [Bootstrap](https://getbootstrap.com/)
 
-## Authors
+## Author
 
-* **Oscar Storbacka**
+**Oscar Storbacka**
 
 [Here's some sort of resume if you're interested](https://github.com/stuki/resume/)

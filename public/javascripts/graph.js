@@ -29,5 +29,5 @@ fetch('/api/v1/weather?location=' + currentPage[0])
         }
       }
     });         
-  });
+  })
   .catch(function(error) {console.error(error)});
