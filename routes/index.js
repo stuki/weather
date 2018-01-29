@@ -46,8 +46,7 @@ router.post('/api/v1/weather', (req, res) => {
   const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
   const values = [data.location, data.temp, data.time]
 
-  const res = db.query(text, values)
-  
+  db.query(text, values)
     .then(result => {
       res.redirect('back');
     }).catch(err => console.error('error executing query', err.stack));
@@ -60,7 +59,7 @@ router.get('/api/v1/weather', (req, res) => {
   let results = {};
   db.query(text)
     .then(result => {
-      results = result.rows; 
+      results = result.rows;
       res.status(200).json(results);
     })
     .catch(err => console.error('error executing query', err.stack));
