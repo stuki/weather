@@ -1,12 +1,44 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const db = require('../db') 
-const sanitize = require('express-validator/filter');
+const db = require('../db');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Weather', data: JSON.stringify(findTemperatures('helsinki')) });
+router.get('/', async (req, res, next) => {
+  try {
+    const temperatureRangeQuery = "SELECT location AS location, MAX(temperature) AS max, MIN(temperature) AS min \
+                                 FROM temperatures \
+                                 WHERE time > NOW() - interval '1 day' \
+                                 GROUP BY location";
+
+    const temperatureCurrentQuery = "SELECT DISTINCT ON (location) * \
+                                     FROM temperatures \
+                                     ORDER BY location, time DESC";
+
+    const temperatureRange = await db.query(temperatureRangeQuery);
+    const temperatureCurrent = await db.query(temperatureCurrentQuery);
+
+    let data = {
+      'helsinki': {},
+      'amsterdam': {},
+      'dubai': {},
+      'tokyo': {},
+      'new york': {}
+    };
+
+    for (var i in temperatureCurrent.rows) {
+      data[temperatureCurrent.rows[i].location].current = temperatureCurrent.rows[i].temperature;
+    };
+    for (var i in temperatureRange.rows) {
+      data[temperatureRange.rows[i].location].max = temperatureRange.rows[i].max;
+      data[temperatureRange.rows[i].location].min = temperatureRange.rows[i].min;
+    };
+
+    res.render('index', { title: 'Weather', data: data });
+  } catch(err) {
+    next(err)
+  };
+  
 });
 
 router.post('/api/v1/weather', (req, res) => {
@@ -14,7 +46,8 @@ router.post('/api/v1/weather', (req, res) => {
   const text = 'INSERT INTO temperatures(location, temperature, time) values ($1, $2, $3)';
   const values = [data.location, data.temp, data.time]
 
-  db.query(text, values)
+  const res = db.query(text, values)
+  
     .then(result => {
       res.redirect('back');
     }).catch(err => console.error('error executing query', err.stack));
@@ -28,7 +61,6 @@ router.get('/api/v1/weather', (req, res) => {
   db.query(text)
     .then(result => {
       results = result.rows; 
-      // console.log(results);
       res.status(200).json(results);
     })
     .catch(err => console.error('error executing query', err.stack));
@@ -36,41 +68,3 @@ router.get('/api/v1/weather', (req, res) => {
 });
 
 module.exports = router;
-
-function findTemperatures(location) {
-  const maxTemperatureQuery = "SELECT max(temperature) \
-                               FROM temperatures \
-                               WHERE location = '" + location + "' \
-                               AND time > NOW() - interval '1 day'";
-
-  const minTemperatureQuery = "SELECT min(temperature) \
-                               FROM temperatures \
-                               WHERE location = '" + location + "' \
-                               AND time > NOW() - interval '1 day'";
-
-  const currentTemperatureQuery = "SELECT temperature \
-                                   FROM temperatures \
-                                   WHERE location = '" + location + "' \
-                                   ORDER BY time DESC LIMIT 1";
-
-  let temperatures = {location: {'current': null, 'hi': null, 'low': null}}
-  
-  let databaseQuery = new Promise((resolve, reject) => {
-    db.query(currentTemperatureQuery).then(res => {
-      // console.log(res.rows);
-      temperatures.location.current = res.rows[0];
-    }).catch(err => console.error('error executing query', err.stack));
-
-    db.query(minTemperatureQuery).then(res => {
-      // console.log(res.rows);
-      temperatures.location.low = res.rows[0];
-    }).catch(err => console.error('error executing query', err.stack));
-
-    db.query(maxTemperatureQuery).then(res => {
-      // console.log(res.rows);
-      temperatures.location.max = res.rows[0];
-    }).catch(err => console.error('error executing query', err.stack));
-  });
-
-  databaseQuery.then(resolve => { console.log(JSON.stringify(temperatures)); return temperatures; });
-}

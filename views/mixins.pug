@@ -1,6 +1,6 @@
-mixin locationCard(title, coordinates, temperature, highTemperature, lowTemperature)
-    a(href='/location/'+title) 
-        .card(class=title)
+mixin locationCard(title, imgLocation, coordinates, temperature, highTemperature, lowTemperature)
+    a(href='/location/'+ title) 
+        .card(style="background: url('/images/"+imgLocation+".jpg')")
             .card-block
                 .row
                     .col-sm-8

@@ -3,19 +3,13 @@ include mixins
 
 block content
     h1= title
-    p #{data}
-    //- +locationCard("Helsinki", "60.1697530°, 24.9490830°", data.current, data.hi, data.low)
-    //- +locationCard("Tokyo", "35.6584421°, 139.7328635°")
-    //- +locationCard("New York", "40.7406905°, -73.9938438°")
-    //- +locationCard("Amsterdam", "52.3650691°, 4.9040238°")
-    //- +locationCard("Dubai", "25.092535°, 55.1562243°")
+        +locationCard("Helsinki", 'helsinki', "60.1697530°, 24.9490830°", data['helsinki'].current, data['helsinki'].max, data['helsinki'].min)
+        +locationCard("Tokyo", 'tokyo', "35.6584421°, 139.7328635°", data['tokyo'].current, data['tokyo'].max, data['tokyo'].min)
+        +locationCard("New York", 'newyork', "40.7406905°, -73.9938438°", data['new york'].current, data['new york'].max, data['new york'].min)
+        +locationCard("Amsterdam", 'amsterdam', "52.3650691°, 4.9040238°", data['amsterdam'].current, data['amsterdam'].max, data['amsterdam'].min)
+        +locationCard("Dubai", 'dubai', "25.092535°, 55.1562243°", data['dubai'].current, data['dubai'].max, data['dubai'].min)
 
     // TODO
-    //
-    // each card should get relevant data from the database
-    // location pages need working
-    // limit requests
     // alerts
-    // remove unused stuff
     // comment
     // ship
