@@ -1,7 +1,5 @@
 const express = require('express');
-const session = require('express-session');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -12,16 +10,12 @@ const location = require('./routes/location');
 
 const app = express();
 
-const port = process.env.PORT || 8080;
-
 app.use(cookieParser('secret'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,10 +28,6 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
-});
-
-app.listen(port, () => {
-	console.log('Express server listening on port', port);
 });
 
 // error handler
